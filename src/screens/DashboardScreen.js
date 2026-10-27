@@ -12,16 +12,13 @@ export default function DashboardScreen() {
   const [showBalance, setShowBalance] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  // Modifikasi 1: Fungsi Pull-to-Refresh
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    // Simulasi memuat data dari server selama 1.5 detik
     setTimeout(() => {
       setRefreshing(false);
     }, 1500);
   }, []);
 
-  // Modifikasi 2: Animasi Transisi Halus
   const toggleBalance = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     setShowBalance(!showBalance);
@@ -199,7 +196,6 @@ export default function DashboardScreen() {
 
       </ScrollView>
 
-      {/* Modifikasi 3: Floating Bottom Navigation */}
       <View className="absolute bottom-5 self-center w-[90%] h-16 bg-white/95 rounded-2xl shadow-lg border border-slate-100 flex-row justify-around items-center px-2">
         <NavIcon icon="home" label="Beranda" active />
         <NavIcon icon="receipt-long" label="Transaksi" />
