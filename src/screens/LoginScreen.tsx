@@ -6,15 +6,24 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../App';
 
-export default function LoginScreen({ navigation }) {
-  const [username, setUsername] = useState('0812-9844-8821');
-  const [password, setPassword] = useState('882104');
-  const [showPassword, setShowPassword] = useState(false);
-  const [rememberMe, setRememberMe] = useState(true);
+type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
+
+interface Props {
+  navigation: LoginScreenNavigationProp;
+}
+
+export default function LoginScreen({ navigation }: Props) {
+  const [username, setUsername] = useState<string>('0812-9844-8821');
+  const [password, setPassword] = useState<string>('882104');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [rememberMe, setRememberMe] = useState<boolean>(true);
   
-  const [focusedInput, setFocusedInput] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  // State untuk UX Modifikasi
+  const [focusedInput, setFocusedInput] = useState<'username' | 'pin' | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleLogin = () => {
     Keyboard.dismiss();
@@ -26,7 +35,7 @@ export default function LoginScreen({ navigation }) {
     }, 1200);
   };
 
-  const setQuickProfile = (user, pass) => {
+  const setQuickProfile = (user: string, pass: string) => {
     setUsername(user);
     setPassword(pass);
   };
@@ -42,7 +51,6 @@ export default function LoginScreen({ navigation }) {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView className="flex-1 px-4" showsVerticalScrollIndicator={false}>
             
-            {/* 1. HEADER / BRANDING PANEL */}
             <View className="w-full bg-slate-900 rounded-2xl p-5 shadow-lg mt-6 mb-5 relative overflow-hidden border border-slate-800">
               <View className="absolute -right-8 -top-8 w-36 h-36 rounded-full bg-emerald-500/20 blur-2xl" />
               <View className="absolute -left-10 bottom-0 w-32 h-32 rounded-full bg-emerald-400/10 blur-xl" />
@@ -79,7 +87,6 @@ export default function LoginScreen({ navigation }) {
               </View>
             </View>
 
-            {/*LOGIN FORM*/}
             <View className="bg-white rounded-3xl p-5 shadow-sm border border-slate-200 mb-5">
               <View className="flex-row items-center justify-between mb-5">
                 <Text className="text-xl font-extrabold text-slate-900 tracking-tight">Masuk ke Kasir</Text>
@@ -89,7 +96,6 @@ export default function LoginScreen({ navigation }) {
               </View>
 
               <View className="flex-col gap-4">
-                {/*Input Username*/}
                 <View className="flex-col gap-1.5">
                   <View className="flex-row justify-between items-center">
                     <Text className="text-[11px] font-bold text-slate-700">Nomor HP atau ID Kasir</Text>
@@ -111,7 +117,7 @@ export default function LoginScreen({ navigation }) {
                   </View>
                 </View>
 
-                {/* Input Password*/}
+                {/* Input Password */}
                 <View className="flex-col gap-1.5">
                   <View className="flex-row justify-between items-center">
                     <Text className="text-[11px] font-bold text-slate-700">PIN Akses Toko (6 Digit)</Text>
@@ -141,7 +147,6 @@ export default function LoginScreen({ navigation }) {
                   </View>
                 </View>
 
-                {/* Remember Me & Forgot PIN */}
                 <View className="flex-row justify-between items-center mt-1 px-1">
                   <TouchableOpacity 
                     className="flex-row items-center gap-2 active:opacity-70"
@@ -157,7 +162,6 @@ export default function LoginScreen({ navigation }) {
                   </TouchableOpacity>
                 </View>
 
-                {/* Login Button*/}
                 <TouchableOpacity 
                   onPress={handleLogin}
                   disabled={isLoading}
@@ -172,16 +176,23 @@ export default function LoginScreen({ navigation }) {
                     </>
                   )}
                 </TouchableOpacity>
+
+                <TouchableOpacity 
+                  onPress={() => navigation.navigate('Register')}
+                  className="w-full h-12 rounded-xl bg-emerald-50 flex-row items-center justify-center gap-2 border border-emerald-200 active:bg-emerald-100 mt-1"
+                >
+                  <MaterialIcons name="app-registration" size={18} color="#059669" />
+                  <Text className="text-emerald-700 font-bold text-[12px] tracking-wide">Belum punya akun? Daftar UMKM Baru</Text>
+                </TouchableOpacity>
+
               </View>
 
-              {/* Quick Profile Divider */}
               <View className="flex-row items-center mt-6 mb-4">
                 <View className="flex-1 h-[1px] bg-slate-100" />
                 <Text className="mx-3 text-[9px] font-extrabold text-slate-400 uppercase tracking-widest">Ganti Kasir Cepat</Text>
                 <View className="flex-1 h-[1px] bg-slate-100" />
               </View>
 
-              {/* Quick Profile Grid */}
               <View className="flex-row gap-3">
                 <TouchableOpacity 
                   onPress={() => setQuickProfile('cashier.budi', '123456')}
@@ -211,8 +222,8 @@ export default function LoginScreen({ navigation }) {
               </View>
             </View>
 
-            {/* FOOTER ACTIONS & INFO */}
             <View className="flex-col gap-4 mb-8">
+              
               <TouchableOpacity 
                 onPress={handleLogin}
                 className="w-full p-4 rounded-2xl bg-white flex-row items-center justify-between border border-slate-200 active:bg-slate-50 shadow-sm"

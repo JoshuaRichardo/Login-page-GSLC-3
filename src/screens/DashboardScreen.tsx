@@ -3,14 +3,36 @@ import { View, Text, ScrollView, TouchableOpacity, StatusBar, RefreshControl, La
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
 import Svg, { Path, Circle, Line, Defs, LinearGradient, Stop, Text as SvgText } from 'react-native-svg';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../App';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-export default function DashboardScreen() {
-  const [showBalance, setShowBalance] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
+type DashboardScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Dashboard'>;
+
+interface Props {
+  navigation: DashboardScreenNavigationProp;
+}
+
+interface InventoryRowProps {
+  icon: keyof typeof MaterialIcons.glyphMap;
+  title: string;
+  desc: string;
+  status: 'AMAN' | 'MENIPIS' | 'HABIS';
+  isCritical?: boolean;
+}
+
+interface NavIconProps {
+  icon: keyof typeof MaterialIcons.glyphMap;
+  label: string;
+  active?: boolean;
+}
+
+export default function DashboardScreen({ navigation }: Props) {
+  const [showBalance, setShowBalance] = useState<boolean>(true);
+  const [refreshing, setRefreshing] = useState<boolean>(false);
 
   const onRefresh = useCallback(() => {
     setRefreshing(true);
@@ -48,7 +70,7 @@ export default function DashboardScreen() {
       <ScrollView 
         showsVerticalScrollIndicator={false} 
         className="flex-1 px-4 pt-2"
-        contentContainerStyle={{ paddingBottom: 100 }}
+        contentContainerStyle={{ paddingBottom: 100 }} 
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} colors={['#059669']} />
         }
@@ -209,7 +231,7 @@ export default function DashboardScreen() {
   );
 }
 
-function InventoryRow({ icon, title, desc, status, isCritical }) {
+function InventoryRow({ icon, title, desc, status, isCritical }: InventoryRowProps) {
   const isAman = status === 'AMAN';
   const isMenipis = status === 'MENIPIS';
   
@@ -233,11 +255,11 @@ function InventoryRow({ icon, title, desc, status, isCritical }) {
   );
 }
 
-function NavIcon({ icon, label, active }) {
+function NavIcon({ icon, label, active }: NavIconProps) {
   return (
     <TouchableOpacity className="items-center justify-center min-w-[56px] h-full active:opacity-70">
       <MaterialIcons name={icon} size={22} color={active ? "#0f172a" : "#94a3b8"} />
       <Text className={`text-[9px] mt-1 font-bold ${active ? 'text-slate-900' : 'text-slate-400'}`}>{label}</Text>
     </TouchableOpacity>
   );
-} 
+}
