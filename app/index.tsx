@@ -6,22 +6,15 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../App';
+import { useRouter } from 'expo-router';
 
-type LoginScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Login'>;
 
-interface Props {
-  navigation: LoginScreenNavigationProp;
-}
-
-export default function LoginScreen({ navigation }: Props) {
+export default function LoginScreen() {
+  const router = useRouter();
   const [username, setUsername] = useState<string>('0812-9844-8821');
   const [password, setPassword] = useState<string>('882104');
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [rememberMe, setRememberMe] = useState<boolean>(true);
-  
-  // State untuk UX Modifikasi
   const [focusedInput, setFocusedInput] = useState<'username' | 'pin' | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -29,10 +22,10 @@ export default function LoginScreen({ navigation }: Props) {
     Keyboard.dismiss();
     setIsLoading(true);
     
-    setTimeout(() => {
+  setTimeout(() => {
       setIsLoading(false);
-      navigation.replace('Dashboard');
-    }, 1200);
+      console.log("Login Ditekan");
+    }, 1000);
   };
 
   const setQuickProfile = (user: string, pass: string) => {
