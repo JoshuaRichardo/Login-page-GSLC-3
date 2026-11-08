@@ -2,12 +2,10 @@
   "expo": {
     "name": "Mini Payroll",
     "slug": "hinano",
-    "scheme": "hinano",
     "version": "1.0.0",
     "userInterfaceStyle": "automatic",
     "plugins": [
-      "expo-status-bar",
-      "expo-router"
+      "expo-status-bar"
     ]
   }
 }

@@ -6,11 +6,19 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
+type LoginScreenNavigationProp = NativeStackNavigationProp<{
+  Login: undefined;
+  Dashboard: undefined;
+  Register: undefined;
+}, 'Login'>;
 
-export default function LoginScreen() {
-  const router = useRouter();
+interface Props {
+  navigation: LoginScreenNavigationProp;
+}
+
+export default function LoginScreen({ navigation }: Props) {
   const [username, setUsername] = useState<string>('0812-9844-8821');
   const [password, setPassword] = useState<string>('882104');
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -22,9 +30,9 @@ export default function LoginScreen() {
     Keyboard.dismiss();
     setIsLoading(true);
     
-  setTimeout(() => {
+    setTimeout(() => {
       setIsLoading(false);
-      console.log("Login Ditekan");
+      navigation.replace('Dashboard');
     }, 1000);
   };
 
