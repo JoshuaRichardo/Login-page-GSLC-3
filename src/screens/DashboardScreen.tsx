@@ -209,7 +209,6 @@ export default function DashboardScreen({ navigation }: Props) {
             </TouchableOpacity>
           </View>
 
-          {/* Menggunakan data statis dari file dummy.ts */}
           {INVENTORY_DATA.map((item) => (
             <InventoryRow 
               key={item.id}
@@ -226,7 +225,6 @@ export default function DashboardScreen({ navigation }: Props) {
       </ScrollView>
 
       <BottomNavBar />
-
     </SafeAreaView>
   );
 }
