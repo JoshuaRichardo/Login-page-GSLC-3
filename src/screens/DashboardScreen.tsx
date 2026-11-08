@@ -5,6 +5,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import Svg, { Path, Circle, Line, Defs, LinearGradient, Stop, Text as SvgText } from 'react-native-svg';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { INVENTORY_DATA } from '../data/dummy';
+import InventoryRow from '../components/InventoryRow';
+import BottomNavBar from '../components/BottomNavBar';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -18,14 +20,6 @@ type DashboardScreenNavigationProp = NativeStackNavigationProp<RootStackParamLis
 
 interface Props {
   navigation: DashboardScreenNavigationProp;
-}
-
-interface InventoryRowProps {
-  icon: keyof typeof MaterialIcons.glyphMap;
-  title: string;
-  desc: string;
-  status: 'AMAN' | 'MENIPIS' | 'HABIS';
-  isCritical?: boolean;
 }
 
 interface NavIconProps {
@@ -231,51 +225,10 @@ export default function DashboardScreen({ navigation }: Props) {
 
       </ScrollView>
 
-      <View className="absolute bottom-5 self-center w-[90%] h-16 bg-white/95 rounded-2xl shadow-lg border border-slate-100 flex-row justify-around items-center px-2">
-        <NavIcon icon="home" label="Beranda" active />
-        <NavIcon icon="receipt-long" label="Transaksi" />
-        
-        {/* Tombol Tengah Baru: Kasir / Tambah Transaksi */}
-        <TouchableOpacity className="w-12 h-12 bg-emerald-600 rounded-full items-center justify-center shadow-md -mt-6 border-4 border-slate-50 active:bg-emerald-700">
-          <MaterialIcons name="point-of-sale" size={22} color="white" />
-        </TouchableOpacity>
+      <BottomNavBar />
 
-        <NavIcon icon="inventory" label="Stok" />
-        <NavIcon icon="settings" label="Pengaturan" />
-      </View>
     </SafeAreaView>
   );
 }
 
-function InventoryRow({ icon, title, desc, status, isCritical }: InventoryRowProps) {
-  const isAman = status === 'AMAN';
-  const isMenipis = status === 'MENIPIS';
   
-  return (
-    <View className="flex-row items-center justify-between py-3 border-b border-slate-50 last:border-0">
-      <View className="flex-row items-center gap-3 flex-1 pr-2">
-        <View className={`w-10 h-10 rounded-xl items-center justify-center ${isAman ? 'bg-slate-50 border border-slate-100' : isMenipis ? 'bg-amber-50 border border-amber-100' : 'bg-rose-50 border border-rose-100'}`}>
-          <MaterialIcons name={icon} size={20} color={isAman ? "#64748b" : isMenipis ? "#d97706" : "#e11d48"} />
-        </View>
-        <View className="flex-1">
-          <Text className="text-slate-800 font-bold text-sm tracking-tight" numberOfLines={1}>{title}</Text>
-          <Text className={`text-[11px] mt-0.5 ${isCritical ? 'text-rose-500 font-bold' : 'text-slate-400'}`}>
-            {desc}
-          </Text>
-        </View>
-      </View>
-      <View className={`px-2.5 py-1 rounded-md border ${isAman ? 'bg-emerald-50 border-emerald-100' : isMenipis ? 'bg-amber-50 border-amber-100' : 'bg-rose-50 border-rose-100'}`}>
-        <Text className={`text-[9px] font-extrabold uppercase tracking-wider ${isAman ? 'text-emerald-700' : isMenipis ? 'text-amber-700' : 'text-rose-700'}`}>{status}</Text>
-      </View>
-    </View>
-  );
-}
-
-function NavIcon({ icon, label, active }: NavIconProps) {
-  return (
-    <TouchableOpacity className="items-center justify-center min-w-[56px] h-full active:opacity-70">
-      <MaterialIcons name={icon} size={22} color={active ? "#0f172a" : "#94a3b8"} />
-      <Text className={`text-[9px] mt-1 font-bold ${active ? 'text-slate-900' : 'text-slate-400'}`}>{label}</Text>
-    </TouchableOpacity>
-  );
-}
