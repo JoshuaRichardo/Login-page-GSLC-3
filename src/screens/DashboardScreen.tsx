@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
 import Svg, { Path, Circle, Line, Defs, LinearGradient, Stop, Text as SvgText } from 'react-native-svg';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { INVENTORY_DATA } from '../data/dummy';
 
 if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
   UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -214,9 +215,18 @@ export default function DashboardScreen({ navigation }: Props) {
             </TouchableOpacity>
           </View>
 
-          <InventoryRow icon="rice-bowl" title="Beras Rojolele 5kg" desc="Sisa 42 Karung" status="AMAN" />
-          <InventoryRow icon="water-drop" title="Minyak Goreng Kita 2L" desc="Sisa 5 Pouch" status="MENIPIS" isCritical />
-          <InventoryRow icon="shopping-bag" title="Tepung Segitiga Biru" desc="Stok Habis (0 Dus)" status="HABIS" isCritical />
+          {/* Menggunakan data statis dari file dummy.ts */}
+          {INVENTORY_DATA.map((item) => (
+            <InventoryRow 
+              key={item.id}
+              icon={item.icon as any} 
+              title={item.title} 
+              desc={item.desc} 
+              status={item.status as 'AMAN' | 'MENIPIS' | 'HABIS'} 
+              isCritical={item.isCritical} 
+            />
+          ))}
+          
         </View>
 
       </ScrollView>
@@ -224,9 +234,12 @@ export default function DashboardScreen({ navigation }: Props) {
       <View className="absolute bottom-5 self-center w-[90%] h-16 bg-white/95 rounded-2xl shadow-lg border border-slate-100 flex-row justify-around items-center px-2">
         <NavIcon icon="home" label="Beranda" active />
         <NavIcon icon="receipt-long" label="Transaksi" />
-        <View className="w-12 h-12 bg-slate-900 rounded-full items-center justify-center shadow-md -mt-6 border-4 border-slate-50">
-          <MaterialIcons name="qr-code-scanner" size={22} color="white" />
-        </View>
+        
+        {/* Tombol Tengah Baru: Kasir / Tambah Transaksi */}
+        <TouchableOpacity className="w-12 h-12 bg-emerald-600 rounded-full items-center justify-center shadow-md -mt-6 border-4 border-slate-50 active:bg-emerald-700">
+          <MaterialIcons name="point-of-sale" size={22} color="white" />
+        </TouchableOpacity>
+
         <NavIcon icon="inventory" label="Stok" />
         <NavIcon icon="settings" label="Pengaturan" />
       </View>
