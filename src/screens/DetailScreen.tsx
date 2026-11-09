@@ -8,7 +8,7 @@ import { RootStackParamList } from '../../App';
 import { INVENTORY_DATA } from '../data/dummy';
 
 type DetailScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Detail'>;
-type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>; // <-- Tambahkan ini
+type DetailScreenRouteProp = RouteProp<RootStackParamList, 'Detail'>;
 
 interface Props {
   navigation: DetailScreenNavigationProp;
@@ -17,8 +17,10 @@ interface Props {
 
 export default function DetailScreen({ navigation, route }: Props) {
   const { id } = route.params;
-
   const item = INVENTORY_DATA.find((data) => data.id === id) || INVENTORY_DATA[0];
+
+  const isAman = item.status === 'AMAN';
+  const isMenipis = item.status === 'MENIPIS';
 
   return (
     <SafeAreaView className="flex-1 bg-slate-50" edges={['top']}>
@@ -39,14 +41,19 @@ export default function DetailScreen({ navigation, route }: Props) {
 
       <ScrollView className="flex-1 px-4 pt-6" showsVerticalScrollIndicator={false}>
         <View className="items-center bg-white p-6 rounded-3xl shadow-sm border border-slate-200 mb-5">
-          <View className={`w-24 h-24 rounded-full items-center justify-center mb-4 border ${item.isCritical ? 'bg-amber-50 border-amber-200' : 'bg-slate-50 border-slate-200'}`}>
-            <MaterialIcons name={item.icon as keyof typeof MaterialIcons.glyphMap} size={48} color={item.isCritical ? "#d97706" : "#64748b"} />
+          <View className={`w-24 h-24 rounded-full items-center justify-center mb-4 border ${isAman ? 'bg-slate-50 border-slate-200' : isMenipis ? 'bg-amber-50 border-amber-200' : 'bg-rose-50 border-rose-200'}`}>
+            <MaterialIcons 
+              name={item.icon as keyof typeof MaterialIcons.glyphMap} 
+              size={48} 
+              color={isAman ? "#64748b" : isMenipis ? "#d97706" : "#e11d48"} 
+            />
           </View>
+          
           <Text className="text-2xl font-extrabold text-slate-900 text-center tracking-tight">{item.title}</Text>
           <Text className="text-slate-500 mt-1.5 font-bold tracking-widest text-xs">SKU: {item.sku}</Text>
           
-          <View className={`mt-4 px-4 py-1.5 rounded-full border ${item.isCritical ? 'bg-amber-100 border-amber-200' : 'bg-emerald-100 border-emerald-200'}`}>
-            <Text className={`font-black text-[11px] tracking-wider ${item.isCritical ? 'text-amber-700' : 'text-emerald-700'}`}>
+          <View className={`mt-4 px-4 py-1.5 rounded-full border ${isAman ? 'bg-emerald-100 border-emerald-200' : isMenipis ? 'bg-amber-100 border-amber-200' : 'bg-rose-100 border-rose-200'}`}>
+            <Text className={`font-black text-[11px] tracking-wider ${isAman ? 'text-emerald-700' : isMenipis ? 'text-amber-700' : 'text-rose-700'}`}>
               STATUS: {item.status}
             </Text>
           </View>
@@ -62,7 +69,7 @@ export default function DetailScreen({ navigation, route }: Props) {
           
           <View className="flex-row justify-between py-3.5 border-b border-slate-100">
             <Text className="text-slate-500 font-semibold text-[13px]">Sisa Stok Gudang</Text>
-            <Text className={`font-extrabold text-[14px] ${item.isCritical ? 'text-rose-600' : 'text-emerald-600'}`}>
+            <Text className={`font-extrabold text-[14px] ${isAman ? 'text-emerald-600' : isMenipis ? 'text-amber-600' : 'text-rose-600'}`}>
               {item.desc}
             </Text>
           </View>
