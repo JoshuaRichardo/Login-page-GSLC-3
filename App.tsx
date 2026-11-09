@@ -10,6 +10,7 @@ import RegisterScreen from './src/screens/RegisterScreen';
 import DashboardScreen from './src/screens/DashboardScreen';
 import TransactionScreen from './src/screens/TransactionScreen';
 import DetailScreen from './src/screens/DetailScreen';
+import SettingsScreen from './src/screens/SettingsScreen';
 
 LogBox.ignoreAllLogs();
 
@@ -19,6 +20,7 @@ export type RootStackParamList = {
   Dashboard: undefined;
   Transaction: undefined;
   Detail: { id: string };
+  Settings: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -32,6 +34,7 @@ export default function App() {
         <Stack.Screen name="Dashboard" component={DashboardScreen} />
         <Stack.Screen name="Transaction" component={TransactionScreen} />
         <Stack.Screen name="Detail" component={DetailScreen} />
+        <Stack.Screen name="Settings" component={SettingsScreen} />
         
       </Stack.Navigator>
     </NavigationContainer>

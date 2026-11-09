@@ -38,6 +38,7 @@ export default function BottomNavBar() {
       <NavIcon 
         icon="settings" 
         label="Pengaturan" 
+        onPress={() => navigation.navigate('Settings')}
       />
       
     </View>
