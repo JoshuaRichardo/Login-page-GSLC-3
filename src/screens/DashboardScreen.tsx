@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
 import Svg, { Path, Circle, Line, Defs, LinearGradient, Stop, Text as SvgText } from 'react-native-svg';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../App';
 import { INVENTORY_DATA } from '../data/dummy';
 import InventoryRow from '../components/InventoryRow';
 import BottomNavBar from '../components/BottomNavBar';
@@ -12,20 +13,10 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
   UIManager.setLayoutAnimationEnabledExperimental(true);
 }
 
-type RootStackParamList = {
-  Dashboard: undefined;
-};
-
-type DashboardScreenNavigationProp = NativeStackNavigationProp<RootStackParamList, 'Dashboard'>;
+type DashboardScreenNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 interface Props {
   navigation: DashboardScreenNavigationProp;
-}
-
-interface NavIconProps {
-  icon: keyof typeof MaterialIcons.glyphMap;
-  label: string;
-  active?: boolean;
 }
 
 export default function DashboardScreen({ navigation }: Props) {
@@ -212,11 +203,12 @@ export default function DashboardScreen({ navigation }: Props) {
           {INVENTORY_DATA.map((item) => (
             <InventoryRow 
               key={item.id}
-              icon={item.icon as any} 
+              icon={item.icon as keyof typeof MaterialIcons.glyphMap} 
               title={item.title} 
               desc={item.desc} 
               status={item.status as 'AMAN' | 'MENIPIS' | 'HABIS'} 
               isCritical={item.isCritical} 
+              onPress={() => navigation.navigate('Detail', { id: item.id })}
             />
           ))}
           
@@ -228,5 +220,3 @@ export default function DashboardScreen({ navigation }: Props) {
     </SafeAreaView>
   );
 }
-
-  

@@ -1,8 +1,10 @@
 /// <reference types="nativewind/types" />
 
-declare module '*.css'
+declare module '*.css';
 
-import 'react-native';
+import { ViewProps } from 'react-native';
+import 'react-native-safe-area-context';
+
 declare module 'react-native' {
   interface ViewProps { className?: string; }
   interface TextProps { className?: string; }
@@ -11,11 +13,8 @@ declare module 'react-native' {
   interface TextInputProps { className?: string; }
 }
 
-import 'react-native-safe-area-context';
 declare module 'react-native-safe-area-context' {
-  import { ViewProps } from 'react-native';
   export interface NativeSafeAreaViewProps extends ViewProps {
     className?: string;
-    edges?: readonly ('top' | 'right' | 'bottom' | 'left')[];
   }
 }
