@@ -17,6 +17,7 @@ interface Props {
 
 export default function DetailScreen({ navigation, route }: Props) {
   const { id } = route.params;
+
   const item = INVENTORY_DATA.find((data) => data.id === id) || INVENTORY_DATA[0];
 
   const isAman = item.status === 'AMAN';
@@ -29,18 +30,18 @@ export default function DetailScreen({ navigation, route }: Props) {
       <View className="flex-row items-center justify-between p-4 bg-white border-b border-slate-200">
         <TouchableOpacity 
           onPress={() => navigation.goBack()} 
-          className="w-10 h-10 items-center justify-center rounded-full active:bg-slate-100"
+          className="w-10 h-10 items-center justify-center rounded-full"
         >
           <MaterialIcons name="arrow-back" size={24} color="#0f172a" />
         </TouchableOpacity>
-        <Text className="text-lg font-bold text-slate-900 tracking-tight">Detail Barang</Text>
+        <Text className="text-lg font-bold text-slate-900">Detail Barang</Text>
         <TouchableOpacity className="w-10 h-10 items-center justify-center">
           <MaterialIcons name="more-vert" size={24} color="#64748b" />
         </TouchableOpacity>
       </View>
 
       <ScrollView className="flex-1 px-4 pt-6" showsVerticalScrollIndicator={false}>
-        <View className="items-center bg-white p-6 rounded-3xl shadow-sm border border-slate-200 mb-5">
+        <View className="items-center bg-white p-6 rounded-2xl border border-slate-200 mb-5">
           <View className={`w-24 h-24 rounded-full items-center justify-center mb-4 border ${isAman ? 'bg-slate-50 border-slate-200' : isMenipis ? 'bg-amber-50 border-amber-200' : 'bg-rose-50 border-rose-200'}`}>
             <MaterialIcons 
               name={item.icon as keyof typeof MaterialIcons.glyphMap} 
@@ -49,42 +50,42 @@ export default function DetailScreen({ navigation, route }: Props) {
             />
           </View>
           
-          <Text className="text-2xl font-extrabold text-slate-900 text-center tracking-tight">{item.title}</Text>
-          <Text className="text-slate-500 mt-1.5 font-bold tracking-widest text-xs">SKU: {item.sku}</Text>
+          <Text className="text-2xl font-bold text-slate-900 text-center">{item.title}</Text>
+          <Text className="text-slate-500 mt-1 font-bold text-xs">SKU: {item.sku}</Text>
           
-          <View className={`mt-4 px-4 py-1.5 rounded-full border ${isAman ? 'bg-emerald-100 border-emerald-200' : isMenipis ? 'bg-amber-100 border-amber-200' : 'bg-rose-100 border-rose-200'}`}>
-            <Text className={`font-black text-[11px] tracking-wider ${isAman ? 'text-emerald-700' : isMenipis ? 'text-amber-700' : 'text-rose-700'}`}>
+          <View className={`mt-4 px-4 py-1 rounded-full border ${isAman ? 'bg-emerald-100 border-emerald-200' : isMenipis ? 'bg-amber-100 border-amber-200' : 'bg-rose-100 border-rose-200'}`}>
+            <Text className={`font-bold text-xs ${isAman ? 'text-emerald-700' : isMenipis ? 'text-amber-700' : 'text-rose-700'}`}>
               STATUS: {item.status}
             </Text>
           </View>
         </View>
 
-        <View className="bg-white rounded-3xl p-5 shadow-sm border border-slate-200 mb-8">
-          <Text className="font-bold text-slate-900 mb-4 text-base tracking-tight">Informasi Stok & Harga</Text>
+        <View className="bg-white rounded-2xl p-5 border border-slate-200 mb-8">
+          <Text className="font-bold text-slate-900 mb-4 text-base">Informasi Stok</Text>
           
-          <View className="flex-row justify-between py-3.5 border-b border-slate-100">
-            <Text className="text-slate-500 font-semibold text-[13px]">Harga Jual</Text>
-            <Text className="text-slate-900 font-extrabold text-[14px]">{item.price}</Text>
+          <View className="flex-row justify-between py-3 border-b border-slate-100">
+            <Text className="text-slate-500 text-sm">Harga Jual</Text>
+            <Text className="text-slate-900 font-bold text-sm">{item.price}</Text>
           </View>
           
-          <View className="flex-row justify-between py-3.5 border-b border-slate-100">
-            <Text className="text-slate-500 font-semibold text-[13px]">Sisa Stok Gudang</Text>
-            <Text className={`font-extrabold text-[14px] ${isAman ? 'text-emerald-600' : isMenipis ? 'text-amber-600' : 'text-rose-600'}`}>
+          <View className="flex-row justify-between py-3 border-b border-slate-100">
+            <Text className="text-slate-500 text-sm">Sisa Gudang</Text>
+            <Text className={`font-bold text-sm ${isAman ? 'text-emerald-600' : isMenipis ? 'text-amber-600' : 'text-rose-600'}`}>
               {item.desc}
             </Text>
           </View>
           
-          <View className="flex-row justify-between py-3.5">
-            <Text className="text-slate-500 font-semibold text-[13px]">Terakhir Diperbarui</Text>
-            <Text className="text-slate-900 font-bold text-[13px]">{item.lastUpdate}</Text>
+          <View className="flex-row justify-between py-3">
+            <Text className="text-slate-500 text-sm">Update Terakhir</Text>
+            <Text className="text-slate-900 font-bold text-sm">{item.lastUpdate}</Text>
           </View>
         </View>
       </ScrollView>
 
       <View className="p-4 bg-white border-t border-slate-200">
-        <TouchableOpacity className="w-full bg-emerald-600 h-14 rounded-2xl flex-row items-center justify-center gap-2 shadow-sm active:bg-emerald-700">
+        <TouchableOpacity className="w-full bg-emerald-600 h-14 rounded-xl flex-row items-center justify-center gap-2">
           <MaterialIcons name="add-shopping-cart" size={20} color="white" />
-          <Text className="text-white font-extrabold text-[15px] tracking-wide">Restock Barang Ini</Text>
+          <Text className="text-white font-bold text-base">Restock Barang Ini</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
