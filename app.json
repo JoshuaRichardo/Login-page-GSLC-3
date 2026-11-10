@@ -6,6 +6,9 @@
     "userInterfaceStyle": "automatic",
     "plugins": [
       "expo-status-bar"
-    ]
+    ],
+    "android": {
+      "softwareKeyboardLayoutMode": "pan"
+    }
   }
 }
